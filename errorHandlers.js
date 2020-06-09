@@ -1,12 +1,9 @@
-const express = require("express");
-const errorHandlers = express.Router();
-
 /*
  * 404 and Global Error Handlers
  */
 
 // Error handler for handling non-existent routes
-errorHandlers.use((req, res, next) => {
+const handle404 = (req, res, next) => {
   // Log statement to indicate that this function is running
   console.log("Handling 404 error");
 
@@ -17,10 +14,10 @@ errorHandlers.use((req, res, next) => {
 
   // Pass error to global error handler below
   next(err);
-});
+};
 
 // Global error handler
-errorHandlers.use((err, req, res, next) => {
+const handelGlobalError = (err, req, res, next) => {
   // Log statement to indicate that this function is running
   console.log("Handling a global error");
   console.log(err);
@@ -32,6 +29,6 @@ errorHandlers.use((err, req, res, next) => {
   // Set error status and send error message to the page
   res.status(err.status || 500);
   res.send(err.message);
-});
+};
 
-module.exports = errorHandlers;
+module.exports = { handle404, handelGlobalError };

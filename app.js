@@ -1,23 +1,13 @@
 // Import Express and set up the app
 const express = require("express");
 const app = express();
-/*
- * Helpers for Various Tasks
- */
-
-// Helper function to reverse a string
-const reverseString = (string) => [...string].reverse().join("");
-
-// Helper function to shorten a string to fifty characters
-const shortenString = (string) => {
-  return string.length > 50 ? string.substring(0, 50) + "..." : string;
-};
 
 const routes = require("./routes");
-app.use(routes);
+const errorHandlers = require("./errorHandlers");
 
-const errorHandler = require("./errorHandlers");
-app.use(errorHandler);
+app.use(routes);
+app.use(errorHandlers.handle404);
+app.use(errorHandlers.handelGlobalError);
 
 // Turn on Express server
 app.listen(3000, () => {
